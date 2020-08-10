@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import crudInputDay from '@/api/inputDay'
+import crudInputDay from '@/api/inputDay/inputDay'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'

@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import crudProduct from '@/api/product'
+import crudProduct from '@/api/product/product'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'

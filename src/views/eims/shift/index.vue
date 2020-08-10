@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import crudShift from '@/api/shift'
+import crudShift from '@/api/shift/shift'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
