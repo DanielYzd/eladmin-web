@@ -32,16 +32,16 @@
         <el-table-column type="selection" width="55" />
         <el-table-column prop="shiftCode" label="班次编号" />
         <el-table-column prop="shiftName" label="班次名称" />
-        <el-table-column prop="createUser" label="创建人" />
-        <el-table-column prop="createDatetime" label="创建时间">
+        <el-table-column prop="createBy" label="创建者" />
+        <el-table-column prop="updateBy" label="更新者" />
+        <el-table-column prop="createTime" label="创建日期">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.createDatetime) }}</span>
+            <span>{{ parseTime(scope.row.createTime) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="modifyUser" label="修改人" />
-        <el-table-column prop="modifyDatetime" label="修改时间">
+        <el-table-column prop="updateTime" label="更新时间">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.modifyDatetime) }}</span>
+            <span>{{ parseTime(scope.row.updateTime) }}</span>
           </template>
         </el-table-column>
         <el-table-column v-permission="['admin','shift:edit','shift:del']" label="操作" width="150px" align="center">
@@ -60,20 +60,20 @@
 </template>
 
 <script>
-import crudShift from '@/api/shift/shift'
+import crudShift from '@/api/shift'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { shiftCode: null, shiftName: null, createUser: null, createDatetime: null, modifyUser: null, modifyDatetime: null }
+const defaultForm = { shiftCode: null, shiftName: null, createBy: null, updateBy: null, createTime: null, updateTime: null }
 export default {
   name: 'Shift',
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '班次', url: 'api/shift', sort: 'shiftCode,desc', crudMethod: { ...crudShift }})
+    return CRUD({ title: '班次管理', url: 'api/shift', sort: 'shiftCode,desc', crudMethod: { ...crudShift }})
   },
   data() {
     return {

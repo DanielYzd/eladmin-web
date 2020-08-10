@@ -46,16 +46,16 @@
         <el-table-column prop="spec" label="规格" />
         <el-table-column prop="unit" label="单位" />
         <el-table-column prop="weight" label="重量(吨)" />
-        <el-table-column prop="createUser" label="创建人" />
-        <el-table-column prop="createDatetime" label="创建时间">
+        <el-table-column prop="createBy" label="创建者" />
+        <el-table-column prop="updateBy" label="更新者" />
+        <el-table-column prop="createTime" label="创建日期">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.createDatetime) }}</span>
+            <span>{{ parseTime(scope.row.createTime) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="modifyUser" label="修改人" />
-        <el-table-column prop="modifyDatetime" label="修改时间">
+        <el-table-column prop="updateTime" label="更新时间">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.modifyDatetime) }}</span>
+            <span>{{ parseTime(scope.row.updateTime) }}</span>
           </template>
         </el-table-column>
         <el-table-column v-permission="['admin','stock:edit','stock:del']" label="操作" width="150px" align="center">
@@ -74,20 +74,20 @@
 </template>
 
 <script>
-import crudStock from '@/api/stock/stock'
+import crudStock from '@/api/stock'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, productCode: null, productName: null, spec: null, unit: null, weight: null, createUser: null, createDatetime: null, modifyUser: null, modifyDatetime: null }
+const defaultForm = { id: null, productCode: null, productName: null, spec: null, unit: null, weight: null, createBy: null, updateBy: null, createTime: null, updateTime: null }
 export default {
   name: 'Stock',
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '库存', url: 'api/stock', sort: 'id,desc', crudMethod: { ...crudStock }})
+    return CRUD({ title: '库存信息', url: 'api/stock', sort: 'id,desc', crudMethod: { ...crudStock }})
   },
   data() {
     return {

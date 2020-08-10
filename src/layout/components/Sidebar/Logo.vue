@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      title: '江西富临纸业',
+      title: '企业数字化管理系统',
       logo: Logo
     }
   }

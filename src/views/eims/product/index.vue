@@ -38,16 +38,16 @@
         <el-table-column prop="productCode" label="产品编码" />
         <el-table-column prop="productName" label="产品名称" />
         <el-table-column prop="spec" label="产品规格" />
-        <el-table-column prop="createUser" label="创建人" />
-        <el-table-column prop="createDatetime" label="创建时间">
+        <el-table-column prop="createBy" label="创建者" />
+        <el-table-column prop="updateBy" label="更新者" />
+        <el-table-column prop="createTime" label="创建日期">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.createDatetime) }}</span>
+            <span>{{ parseTime(scope.row.createTime) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="modifyUser" label="修改人" />
-        <el-table-column prop="modifyDatetime" label="修改时间">
+        <el-table-column prop="updateTime" label="更新时间">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.modifyDatetime) }}</span>
+            <span>{{ parseTime(scope.row.updateTime) }}</span>
           </template>
         </el-table-column>
         <el-table-column v-permission="['admin','product:edit','product:del']" label="操作" width="150px" align="center">
@@ -66,14 +66,14 @@
 </template>
 
 <script>
-import crudProduct from '@/api/product/product'
+import crudProduct from '@/api/product'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, productCode: null, productName: null, spec: null, createUser: null, createDatetime: null, modifyUser: null, modifyDatetime: null }
+const defaultForm = { id: null, productCode: null, productName: null, spec: null, createBy: null, updateBy: null, createTime: null, updateTime: null }
 export default {
   name: 'Product',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -89,9 +89,6 @@ export default {
         del: ['admin', 'product:del']
       },
       rules: {
-        id: [
-          { required: true, message: '主键不能为空', trigger: 'blur' }
-        ],
         productCode: [
           { required: true, message: '产品编码不能为空', trigger: 'blur' }
         ],

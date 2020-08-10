@@ -21,16 +21,16 @@
       <!--表单组件-->
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-          <el-form-item label="产品编码">
+          <el-form-item label="产品编码" prop="productCode">
             <el-input v-model="form.productCode" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="产品名称">
+          <el-form-item label="产品名称" prop="productName">
             <el-input v-model="form.productName" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="产品规格">
+          <el-form-item label="产品规格" prop="spec">
             <el-input v-model="form.spec" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="重量(千克)">
+          <el-form-item label="重量(千克)" prop="weight">
             <el-input v-model="form.weight" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="班次编码">
@@ -40,7 +40,7 @@
             <el-input v-model="form.groupCode" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="班组人员名称,逗号分隔，可以将岗位也存储">
-            <el-input v-model="form.members" style="width: 370px;" />
+            <el-input v-model="form.members" :rows="3" type="textarea" style="width: 370px;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -58,16 +58,16 @@
         <el-table-column prop="shiftCdoe" label="班次编码" />
         <el-table-column prop="groupCode" label="班组编码" />
         <el-table-column prop="members" label="班组人员名称,逗号分隔，可以将岗位也存储" />
-        <el-table-column prop="createUser" label="创建人" />
-        <el-table-column prop="createDatetime" label="创建时间">
+        <el-table-column prop="createBy" label="创建者" />
+        <el-table-column prop="updateBy" label="更新者" />
+        <el-table-column prop="createTime" label="创建日期">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.createDatetime) }}</span>
+            <span>{{ parseTime(scope.row.createTime) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="modifyUser" label="修改人" />
-        <el-table-column prop="modifyDatetime" label="修改时间">
+        <el-table-column prop="updateTime" label="更新时间">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.modifyDatetime) }}</span>
+            <span>{{ parseTime(scope.row.updateTime) }}</span>
           </template>
         </el-table-column>
         <el-table-column v-permission="['admin','inputDay:edit','inputDay:del']" label="操作" width="150px" align="center">
@@ -86,14 +86,14 @@
 </template>
 
 <script>
-import crudInputDay from '@/api/inputDay/inputDay'
+import crudInputDay from '@/api/inputDay'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, productCode: null, productName: null, spec: null, weight: null, shiftCdoe: null, groupCode: null, members: null, createUser: null, createDatetime: null, modifyUser: null, modifyDatetime: null, year: null, month: null, day: null }
+const defaultForm = { id: null, productCode: null, productName: null, spec: null, weight: null, shiftCdoe: null, groupCode: null, members: null, year: null, month: null, day: null, createBy: null, updateBy: null, createTime: null, updateTime: null }
 export default {
   name: 'InputDay',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -109,8 +109,17 @@ export default {
         del: ['admin', 'inputDay:del']
       },
       rules: {
-        id: [
-          { required: true, message: '主键不能为空', trigger: 'blur' }
+        productCode: [
+          { required: true, message: '产品编码不能为空', trigger: 'blur' }
+        ],
+        productName: [
+          { required: true, message: '产品名称不能为空', trigger: 'blur' }
+        ],
+        spec: [
+          { required: true, message: '产品规格不能为空', trigger: 'blur' }
+        ],
+        weight: [
+          { required: true, message: '重量(千克)不能为空', trigger: 'blur' }
         ]
       },
       queryTypeOptions: [

@@ -4,10 +4,10 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
-        <label class="el-form-item-label">班组编号</label>
-        <el-input v-model="query.groupCode" clearable placeholder="班组编号" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
-        <label class="el-form-item-label">班组名称</label>
-        <el-input v-model="query.groupName" clearable placeholder="班组名称" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <label class="el-form-item-label">班次编号</label>
+        <el-input v-model="query.groupCode" clearable placeholder="班次编号" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <label class="el-form-item-label">班次名称</label>
+        <el-input v-model="query.groupName" clearable placeholder="班次名称" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <rrOperation :crud="crud" />
       </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
@@ -32,16 +32,16 @@
         <el-table-column type="selection" width="55" />
         <el-table-column prop="groupCode" label="班次编号" />
         <el-table-column prop="groupName" label="班次名称" />
-        <el-table-column prop="createUser" label="创建人" />
-        <el-table-column prop="createDatetime" label="创建时间">
+        <el-table-column prop="createBy" label="创建者" />
+        <el-table-column prop="updateBy" label="更新者" />
+        <el-table-column prop="createTime" label="创建日期">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.createDatetime) }}</span>
+            <span>{{ parseTime(scope.row.createTime) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="modifyUser" label="修改人" />
-        <el-table-column prop="modifyDatetime" label="修改时间">
+        <el-table-column prop="updateTime" label="更新时间">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.modifyDatetime) }}</span>
+            <span>{{ parseTime(scope.row.updateTime) }}</span>
           </template>
         </el-table-column>
         <el-table-column v-permission="['admin','group:edit','group:del']" label="操作" width="150px" align="center">
@@ -60,14 +60,14 @@
 </template>
 
 <script>
-import crudGroup from '@/api/group/group.js'
+import crudGroup from '@/api/group'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { groupCode: null, groupName: null, createUser: null, createDatetime: null, modifyUser: null, modifyDatetime: null }
+const defaultForm = { groupCode: null, groupName: null, createBy: null, updateBy: null, createTime: null, updateTime: null }
 export default {
   name: 'Group',
   components: { pagination, crudOperation, rrOperation, udOperation },
