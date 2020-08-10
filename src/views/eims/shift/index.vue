@@ -73,7 +73,7 @@ export default {
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '班次管理', url: 'api/shift', sort: 'shiftCode,desc', crudMethod: { ...crudShift }})
+    return CRUD({ title: '班次管理', idField: 'shiftCode', url: 'api/shift', sort: 'shiftCode,desc', crudMethod: { ...crudShift }})
   },
   data() {
     return {

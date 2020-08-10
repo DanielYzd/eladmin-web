@@ -73,7 +73,7 @@ export default {
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '班组管理', url: 'api/group', sort: 'groupCode,desc', crudMethod: { ...crudGroup }})
+    return CRUD({ title: '班组管理', idField: 'groupCode', url: 'api/group', sort: 'groupCode,desc', crudMethod: { ...crudGroup }})
   },
   data() {
     return {
