@@ -8,8 +8,6 @@
         <el-input v-model="query.productCode" clearable placeholder="产品编码" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <label class="el-form-item-label">产品名称</label>
         <el-input v-model="query.productName" clearable placeholder="产品名称" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
-        <label class="el-form-item-label">规格</label>
-        <el-input v-model="query.spec" clearable placeholder="规格" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <rrOperation :crud="crud" />
       </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
@@ -18,19 +16,16 @@
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
           <el-form-item label="产品编码">
-            <el-input v-model="form.productCode" style="width: 370px;" />
+            <el-input v-model="form.product.productCode" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="产品名称">
-            <el-input v-model="form.productName" style="width: 370px;" />
-          </el-form-item>
-          <el-form-item label="规格">
-            <el-input v-model="form.spec" style="width: 370px;" />
+            <el-input v-model="form.product.productName" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="单位">
             <el-input v-model="form.unit" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="重量(吨)">
-            <el-input v-model="form.weight" style="width: 370px;" />
+          <el-form-item label="总重量(吨)">
+            <el-input v-model="form.totalWeight" style="width: 370px;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -41,11 +36,10 @@
       <!--表格渲染-->
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="productCode" label="产品编码" />
-        <el-table-column prop="productName" label="产品名称" />
-        <el-table-column prop="spec" label="规格" />
+        <el-table-column prop="product.productCode" label="产品编码" />
+        <el-table-column prop="product.productName" label="产品名称" />
         <el-table-column prop="unit" label="单位" />
-        <el-table-column prop="weight" label="重量(吨)" />
+        <el-table-column prop="totalWeight" label="总重量(吨)" />
         <el-table-column prop="createBy" label="创建者" />
         <el-table-column prop="updateBy" label="更新者" />
         <el-table-column prop="createTime" label="创建日期">
@@ -81,13 +75,13 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, productCode: null, productName: null, spec: null, unit: null, weight: null, createBy: null, updateBy: null, createTime: null, updateTime: null }
+const defaultForm = { id: null, product: { productCode: null, productName: null }, unit: null, totalWeight: null }
 export default {
   name: 'Stock',
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '库存信息', url: 'api/stock', sort: 'id,desc', crudMethod: { ...crudStock }})
+    return CRUD({ title: '库存', url: 'api/stock', sort: 'id,desc', crudMethod: { ...crudStock }})
   },
   data() {
     return {
@@ -100,8 +94,7 @@ export default {
       },
       queryTypeOptions: [
         { key: 'productCode', display_name: '产品编码' },
-        { key: 'productName', display_name: '产品名称' },
-        { key: 'spec', display_name: '规格' }
+        { key: 'productName', display_name: '产品名称' }
       ]
     }
   },
