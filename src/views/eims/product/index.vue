@@ -24,21 +24,21 @@
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
           <el-form-item label="产品编码" prop="productCode">
-            <el-input v-model="form.productCode" style="width: 370px;" />
+            <el-input v-model="form.productCode" style="width: 370px;" disabled />
           </el-form-item>
           <el-form-item label="产品名称" prop="productName">
             <el-input v-model="form.productName" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="产品规格" prop="spec">
-            <el-input v-model="form.spec" style="width: 370px;" />
+            <el-input v-model="form.spec" style="width: 370px;" disabled />
           </el-form-item>
           <el-form-item label="类别" prop="category">
             <el-input v-model="form.category" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="长度">
+          <el-form-item label="长度" prop="length">
             <el-input v-model="form.length" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="克重">
+          <el-form-item label="克重" prop="weight">
             <el-input v-model="form.weight" style="width: 370px;" />
           </el-form-item>
         </el-form>
@@ -91,7 +91,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, productCode: null, productName: null, spec: null, category: null, length: null, weight: null, createBy: null, updateBy: null, createTime: null, updateTime: null }
+const defaultForm = { id: null, productCode: null, productName: '涂布白板纸', spec: null, category: 'BC', length: null, weight: null, createBy: null, updateBy: null, createTime: null, updateTime: null }
 export default {
   name: 'Product',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -121,6 +121,12 @@ export default {
         ],
         category: [
           { required: true, message: '类别不能为空', trigger: 'blur' }
+        ],
+        length: [
+          { required: true, message: '长度不能为空', trigger: 'blur' }
+        ],
+        weight: [
+          { required: true, message: '克重不能为空', trigger: 'blur' }
         ]
       },
       queryTypeOptions: [
@@ -131,6 +137,19 @@ export default {
         { key: 'length', display_name: '长度' },
         { key: 'weight', display_name: '克重' }
       ]
+    }
+  },
+  watch: {
+    'form.length'(val) {
+      this.form.productCode = this.form.category + val + '*' + this.form.weight
+      this.form.spec = val + '*' + this.form.weight + 'g'
+    },
+    'form.weight'(val) {
+      this.form.productCode = this.form.category + this.form.length + '*' + val
+      this.form.spec = this.form.length + '*' + val + 'g'
+    },
+    'form.category'(val) {
+      this.form.productCode = val + this.form.length + '*' + this.form.weight
     }
   },
   methods: {

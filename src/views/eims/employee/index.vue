@@ -59,9 +59,9 @@
           <el-form-item label="员工姓名" prop="name">
             <el-input v-model="form.name" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="岗位" prop="employeeJob.jobCode">
+          <el-form-item label="岗位" prop="jobCode">
             <el-select
-              v-model="form.employeeJob.jobCode"
+              v-model="form.jobCode"
               style="width: 370px;"
               filterable
             >
@@ -80,6 +80,9 @@
           </el-form-item>
           <el-form-item label="工资">
             <el-input v-model="form.salary" style="width: 370px;" />
+          </el-form-item>
+          <el-form-item label="电话">
+            <el-input v-model="form.phone" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="身份证号">
             <el-input v-model="form.idcard" style="width: 370px;" />
@@ -130,6 +133,7 @@
         </el-table-column>
         <el-table-column prop="salary" label="工资" />
         <el-table-column prop="idcard" label="身份证号" />
+        <el-table-column prop="phone" label="电话" />
         <el-table-column prop="subsidy" label="补贴" />
         <el-table-column prop="status" label="状态">
           <template slot-scope="scope">
@@ -212,7 +216,7 @@ export default {
         name: [
           { required: true, message: '员工姓名不能为空', trigger: 'blur' }
         ],
-        'employeeJob.jobCode': [
+        jobCode: [
           {
             required: true,
             message: '岗位不能为空',

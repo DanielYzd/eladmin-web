@@ -15,14 +15,19 @@
       <!--表单组件-->
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-          <el-form-item label="产品编码">
+          <!-- <el-form-item label="产品编码">
             <el-input v-model="form.product.productCode" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="产品名称">
             <el-input v-model="form.product.productName" style="width: 370px;" />
+          </el-form-item> -->
+          <el-form-item label="产品编码" prop="productCode">
+            <el-select v-model="form.productCode" filterable style="width:370px">
+              <el-option v-for="item in productArr" :key="item.productCode" :label="item.productCode" :value="item.productCode" />
+            </el-select>
           </el-form-item>
           <el-form-item label="单位">
-            <el-input v-model="form.unit" style="width: 370px;" />
+            <el-input v-model="form.unit" style="width: 370px;" disabled />
           </el-form-item>
           <el-form-item label="总重量(吨)">
             <el-input v-model="form.totalWeight" style="width: 370px;" />
@@ -74,8 +79,9 @@ import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
+import request from '@/utils/request'
 
-const defaultForm = { id: null, product: { productCode: null, productName: null }, unit: null, totalWeight: null }
+const defaultForm = { id: null, productCode: null, unit: '吨', totalWeight: null }
 export default {
   name: 'Stock',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -91,12 +97,25 @@ export default {
         del: ['admin', 'stock:del']
       },
       rules: {
+        productCode: [
+          { required: true, message: '产品编号不能为空', trigger: 'blur' }
+        ]
       },
       queryTypeOptions: [
         { key: 'productCode', display_name: '产品编码' },
         { key: 'productName', display_name: '产品名称' }
-      ]
+      ],
+      productArr: []
     }
+  },
+  created() {
+    request({
+      url: 'api/product?page=0&size=999',
+      method: 'get'
+    }).then(res => {
+      this.productArr = res.content
+      console.log(this.productArr)
+    })
   },
   methods: {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
