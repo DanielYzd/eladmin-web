@@ -91,7 +91,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, productCode: null, productName: '涂布白板纸', spec: null, category: 'BC', length: null, weight: null, createBy: null, updateBy: null, createTime: null, updateTime: null }
+const defaultForm = { id: null, productCode: null, productName: '涂布白板纸', spec: null, category: 'C', length: null, weight: null, createBy: null, updateBy: null, createTime: null, updateTime: null }
 export default {
   name: 'Product',
   components: { pagination, crudOperation, rrOperation, udOperation },

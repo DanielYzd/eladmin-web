@@ -3,6 +3,7 @@
   <el-pagination
     :page-size.sync="page.size"
     :total="page.total"
+    :page-sizes="[10, 20, 50, 100,500,1000,2000]"
     :current-page.sync="page.page"
     style="margin-top: 8px;"
     layout="total, prev, pager, next, sizes"
